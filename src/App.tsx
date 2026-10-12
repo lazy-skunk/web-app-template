@@ -1,101 +1,104 @@
 import { useState } from "react";
-import heroImg from "./assets/hero.png";
 import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [name, setName] = useState("");
+  const [category, setCategory] = useState("");
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button type="button" className="counter" onClick={() => setCount((count) => count + 1)}>
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
+    <div className="flex min-h-screen flex-col bg-gray-900 text-gray-100">
+      <header className="flex items-center justify-between px-6 py-4">
+        <a href="#" className="text-lg font-semibold">
+          web-app-template
+        </a>
+        <nav>
+          <ul className="flex gap-4 text-sm">
             <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
+              <a
+                href="https://www.google.com/"
+                target="_blank"
+                className="hover:underline visited:text-purple-500"
+              >
+                Google
               </a>
             </li>
             <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
+              <a href="#" className="hover:underline">
+                Dummy
               </a>
             </li>
           </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        </nav>
+      </header>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <main className="flex flex-1 flex-col items-center justify-center gap-6 p-8">
+        <div className="w-full max-w-sm">
+          <label htmlFor="name" className="mb-2 block text-sm font-medium">
+            Name
+          </label>
+          <input
+            id="name"
+            type="text"
+            value={name}
+            onChange={(event) => setName(event.target.value)}
+            placeholder="Enter your name"
+            aria-describedby={name ? "name-message" : undefined}
+            className="w-full rounded bg-gray-800 px-3 py-2 placeholder:text-gray-500"
+          />
+          {name && (
+            <p id="name-message" className="mt-2 text-sm text-gray-500">
+              Hello, {name}!
+            </p>
+          )}
+        </div>
+
+        <div className="w-full max-w-sm">
+          <label htmlFor="category" className="mb-2 block text-sm font-medium">
+            Category
+          </label>
+          <select
+            id="category"
+            value={category}
+            onChange={(event) => setCategory(event.target.value)}
+            className="w-full rounded bg-gray-800 px-3 py-2"
+          >
+            <option value="" disabled hidden>
+              Select a category
+            </option>
+            <option value="Option1">Option1</option>
+            <option value="Option2">Option2</option>
+            <option value="Option3">Option3</option>
+          </select>
+        </div>
+
+        <div className="flex gap-2">
+          <button
+            type="button"
+            className="rounded px-4 py-2 text-sm font-medium bg-green-900 text-green-100 hover:bg-green-900/75 active:translate-y-px active:bg-green-900/50"
+            onClick={() => setCount((count) => count + 1)}
+          >
+            Count is {count}
+          </button>
+          <button
+            type="button"
+            disabled={count === 0}
+            className={`rounded px-4 py-2 text-sm font-medium bg-red-900 text-red-100 hover:bg-red-900/75 active:translate-y-px active:bg-red-900/50
+              disabled:cursor-not-allowed disabled:bg-gray-800/50 disabled:text-gray-500/50 disabled:active:translate-y-0
+            `}
+            onClick={() => setCount(0)}
+          >
+            Reset
+          </button>
+        </div>
+
+        <div className="flex max-w-lg flex-wrap justify-center gap-2">
+          {Array.from({ length: count }, (_, index) => (
+            <img key={index} src={reactLogo} alt="" className="size-8" />
+          ))}
+        </div>
+      </main>
+    </div>
   );
 }
 
