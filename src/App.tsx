@@ -1,101 +1,167 @@
 import { useState } from "react";
-import heroImg from "./assets/hero.png";
+
 import reactLogo from "./assets/react.svg";
-import viteLogo from "./assets/vite.svg";
-import "./App.css";
 
 function App() {
   const [count, setCount] = useState(0);
+  const [text, setText] = useState("");
+  const [previewState, setPreviewState] = useState("empty");
+  const textInvalid = text.length > 20;
 
   return (
-    <>
-      <section id="center">
-        <div className="hero">
-          <img src={heroImg} className="base" width="170" height="179" alt="" />
-          <img src={reactLogo} className="framework" alt="React logo" />
-          <img src={viteLogo} className="vite" alt="Vite logo" />
-        </div>
-        <div>
-          <h1>Get started</h1>
-          <p>
-            Edit <code>src/App.tsx</code> and save to test <code>HMR</code>
-          </p>
-        </div>
-        <button type="button" className="counter" onClick={() => setCount((count) => count + 1)}>
-          Count is {count}
-        </button>
-      </section>
-
-      <div className="ticks"></div>
-
-      <section id="next-steps">
-        <div id="docs">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#documentation-icon"></use>
-          </svg>
-          <h2>Documentation</h2>
-          <p>Your questions, answered</p>
-          <ul>
+    <div className="bg-background text-foreground flex min-h-screen flex-col gap-6 p-6">
+      <header className="flex flex-wrap items-center justify-between gap-4">
+        <h1 className="text-lg font-bold">
+          <a href="#">web-app-template</a>
+        </h1>
+        <nav>
+          <ul className="flex gap-4">
             <li>
-              <a href="https://vite.dev/" target="_blank">
-                <img className="logo" src={viteLogo} alt="" />
-                Explore Vite
+              <a
+                href="https://www.google.com/"
+                target="_blank"
+                className="visited:text-purple-500 hover:underline"
+              >
+                Google
               </a>
             </li>
+
             <li>
-              <a href="https://react.dev/" target="_blank">
-                <img className="button-icon" src={reactLogo} alt="" />
-                Learn more
+              <a href="#" className="hover:underline">
+                Dummy
               </a>
             </li>
           </ul>
-        </div>
-        <div id="social">
-          <svg className="icon" role="presentation" aria-hidden="true">
-            <use href="/icons.svg#social-icon"></use>
-          </svg>
-          <h2>Connect with us</h2>
-          <p>Join the Vite community</p>
-          <ul>
-            <li>
-              <a href="https://github.com/vitejs/vite" target="_blank">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#github-icon"></use>
-                </svg>
-                GitHub
-              </a>
-            </li>
-            <li>
-              <a href="https://chat.vite.dev/" target="_blank">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#discord-icon"></use>
-                </svg>
-                Discord
-              </a>
-            </li>
-            <li>
-              <a href="https://x.com/vite_js" target="_blank">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#x-icon"></use>
-                </svg>
-                X.com
-              </a>
-            </li>
-            <li>
-              <a href="https://bsky.app/profile/vite.dev" target="_blank">
-                <svg className="button-icon" role="presentation" aria-hidden="true">
-                  <use href="/icons.svg#bluesky-icon"></use>
-                </svg>
-                Bluesky
-              </a>
-            </li>
-          </ul>
-        </div>
-      </section>
+        </nav>
+      </header>
 
-      <div className="ticks"></div>
-      <section id="spacer"></section>
-    </>
+      <main className="mx-auto flex w-full max-w-sm flex-1 flex-col justify-center gap-4">
+        <div className="bg-foreground/3 grid gap-2 rounded p-4">
+          <label htmlFor="text" className="font-semibold">
+            Textbox
+          </label>
+          <p className="text-foreground/50">Use up to 20 characters.</p>
+          <input
+            id="text"
+            type="text"
+            value={text}
+            onChange={(event) => setText(event.target.value)}
+            placeholder="Enter text"
+            className="bg-foreground/3 hover:bg-foreground/6 rounded p-2 motion-safe:transition-colors"
+          />
+          <div role="alert" className="empty:absolute">
+            {textInvalid && (
+              <p className="text-red-500 motion-safe:transition-opacity motion-safe:starting:opacity-0">
+                Use 20 characters or fewer.
+              </p>
+            )}
+          </div>
+          {!textInvalid && text && <p className="text-foreground/50">{text}</p>}
+        </div>
+
+        <div className="bg-foreground/3 flex flex-col gap-4 rounded p-4">
+          <div className="grid gap-2">
+            <h2 className="font-semibold">Buttons</h2>
+            <div className="flex flex-wrap gap-2">
+              <button
+                type="button"
+                className="cursor-pointer rounded bg-green-100 px-4 py-2 text-green-900 motion-safe:transition motion-safe:active:translate-y-px dark:bg-green-900 dark:text-green-100"
+                onClick={() => setCount((count) => count + 1)}
+              >
+                Add React icon
+              </button>
+
+              <button
+                type="button"
+                disabled={count === 0}
+                className="disabled:bg-foreground/3 disabled:text-foreground/50 dark:disabled:bg-foreground/3 dark:disabled:text-foreground/50 cursor-pointer rounded bg-red-100 px-4 py-2 text-red-900 disabled:cursor-not-allowed disabled:active:translate-y-0 motion-safe:transition motion-safe:active:translate-y-px dark:bg-red-900 dark:text-red-100"
+                onClick={() => setCount(0)}
+              >
+                Reset
+              </button>
+            </div>
+          </div>
+
+          <p role="status">Count: {count}</p>
+
+          {count > 0 && (
+            <div className="flex flex-wrap gap-2">
+              {Array.from({ length: count }, (_, index) => (
+                <img
+                  key={index}
+                  src={reactLogo}
+                  alt=""
+                  className="size-8 motion-safe:transition motion-safe:starting:opacity-0"
+                />
+              ))}
+            </div>
+          )}
+        </div>
+
+        <section className="bg-foreground/3 grid gap-2 rounded p-4">
+          <label htmlFor="preview-state" className="font-semibold">
+            Pulldown
+          </label>
+          <select
+            id="preview-state"
+            value={previewState}
+            onChange={(event) => setPreviewState(event.target.value)}
+            className="bg-foreground/3 hover:bg-foreground/6 rounded p-2 motion-safe:transition-colors"
+          >
+            {["empty", "loading", "success", "error"].map((state) => (
+              <option key={state} value={state} className="bg-background text-foreground">
+                {state}
+              </option>
+            ))}
+          </select>
+          <div role="status">
+            <div
+              key={previewState}
+              className="motion-safe:transition-opacity motion-safe:starting:opacity-0"
+            >
+              {previewState === "empty" && <p className="text-foreground/50">No items yet.</p>}
+              {previewState === "loading" && (
+                <p className="text-foreground/50 flex items-center gap-2">
+                  <span className="size-4 rounded-full border-2 border-current border-t-transparent motion-safe:animate-spin" />
+                  Loading…
+                </p>
+              )}
+              {previewState === "success" && <p className="text-green-500">Success.</p>}
+              {previewState === "error" && <p className="text-red-500">Error.</p>}
+            </div>
+          </div>
+        </section>
+
+        <section className="bg-foreground/3 grid gap-2 rounded p-4">
+          <h2 className="font-semibold">Table</h2>
+          <div className="overflow-x-auto rounded">
+            <table className="bg-foreground/3 w-full border-collapse text-left">
+              <thead className="bg-foreground/3">
+                <tr>
+                  <th scope="col" className="p-2 font-semibold">
+                    Column 1
+                  </th>
+                  <th scope="col" className="p-2 font-semibold">
+                    Column 2
+                  </th>
+                </tr>
+              </thead>
+              <tbody>
+                {[1, 2, 3, 4].map((row) => (
+                  <tr
+                    key={row}
+                    className="even:bg-foreground/3 hover:bg-foreground/6 motion-safe:transition-colors"
+                  >
+                    <td className="p-2">Value {row * 2 - 1}</td>
+                    <td className="p-2">Value {row * 2}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
+        </section>
+      </main>
+    </div>
   );
 }
 
